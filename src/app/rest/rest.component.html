@@ -1,0 +1,144 @@
+<div class="leftpane">
+  <h2 align="left">Endpoints<span><a href style="font-size: 13px" (click)="add('endpoint')">(add) </a></span></h2>
+  <p-table #dt [value]="endpointsDetails">
+    <ng-template pTemplate="body" let-row>
+      <ng-container *ngIf="row.isNew !== true">
+        <tr>
+          <td width="68%" style="text-align: left; word-wrap: break-word">
+            <a href (click)="fetchDetails(row)"> {{ row.path }} </a>
+          </td>
+          <td width="22%" style="text-align: left; overflow-wrap: normal">{{row.operation}}</td>
+          <td width="8%">
+            <button style="font-size:15px" (click)="deleteEndPoint(row)"><i class="fa fa-trash-o"></i></button>
+          </td>
+        </tr>
+      </ng-container>
+      <ng-container *ngIf="row.isNew">
+        <tr>
+          <td width="68%">
+            <input matInput placeholder="Path" style="text-align: center; overflow-wrap: normal; width: 100%" value="{{mockRest.path}}" [disabled]="false"  [(ngModel)]="mockRest.path" >
+          </td>
+          <td width="22%">
+            <select [(ngModel)]="mockRest.operation">
+              <option value="GET">GET</option>
+              <option value="POST">POST</option>
+              <option value="PUT">PUT</option>
+              <option value="DELETE">DELETE</option>
+            </select>
+          </td>
+          <td width="8%">
+            <button style="font-size:15px"><i class="fa fa-trash-o"></i></button>
+          </td>
+        </tr>
+      </ng-container>
+    </ng-template>
+  </p-table>
+</div>
+<ng-container *ngIf="mockRest">
+  <div class="middlepane">
+    <h2 align="left">Case <span><a href style="font-size: 13px" (click)="add('item')">(add)</a></span>
+      <button mat-raised-button style="float: right; background-color: coral; color: white; margin-right: 50px" (click)="saveChanges()">Save</button>
+    </h2>
+    <p-table #dt [value]="mockRest.customRests">
+      <ng-template pTemplate="body" let-row>
+        <ng-container *ngIf="row.isNew !== true">
+          <tr>
+            <td width="75%" style="text-align: left; word-wrap: break-word;">
+              <a href (click)="setRequestResponseDetails(row)">{{row.name}}</a>
+            </td>
+            <td width="8%">
+              <button style="font-size:15px"><i class="fa fa-trash-o"></i></button>
+            </td>
+          </tr>
+        </ng-container>
+      <ng-container *ngIf="row.isNew">
+        <tr>
+          <td width="90%">
+            <input matInput placeholder="Name" style="text-align: center; overflow-wrap: normal; width: 100%" value="{{row.name}}" [disabled]="false"  [(ngModel)]="row.name" >
+          </td>
+          <td width="8%">
+            <button style="font-size:15px"><i class="fa fa-trash-o"></i></button>
+          </td>
+        </tr>
+      </ng-container>
+      </ng-template>
+    </p-table>
+  </div>
+</ng-container>
+<ng-container *ngIf="this.currentRequestResponseDetail && this.selectedEndPoint">
+  <div>
+    <div class="rightpaneAbove">
+      <h2 align="center">Request</h2>
+      <div class="header">
+        <h3>Headers <span><a href style="font-size: 13px" (click)="add('requestHeader')">(add)</a></span></h3>
+        <p-table #dt [value]="currentRequestResponseDetail.request.requestHeaders">
+          <ng-template pTemplate="body" let-row>
+            <ng-container *ngIf="row.isNew !== true">
+              <tr>
+                <td width="45%" style="text-align: center; word-wrap: break-word">{{row.name}}</td>
+                <td width="45%" style="text-align: center; word-wrap: break-word">{{row.value}}</td>
+                <td width="8%">
+                  <button style="font-size:15px"><i class="fa fa-trash-o"></i></button>
+                </td>
+              </tr>
+            </ng-container>
+            <ng-container *ngIf="row.isNew">
+              <tr>
+                <td width="45%" style="margin-left: 10px">
+                  <input matInput placeholder="Name" style="text-align: center; overflow-wrap: normal; width: 100%" value="{{row.name}}" [disabled]="false"  [(ngModel)]="row.name" >
+                </td>
+                <td width="45%" style="margin-left: 10px">
+                  <input matInput placeholder="Value" style="text-align: center; overflow-wrap: normal; width: 100%" value="{{row.value}}" [disabled]="false"  [(ngModel)]="row.value">
+                </td>
+                <td width="8%">
+                  <button style="font-size:15px"><i class="fa fa-trash-o"></i></button>
+                </td>
+              </tr>
+            </ng-container>
+          </ng-template>
+        </p-table>
+      </div>
+      <div class="body">
+        <h3>Body</h3>
+        <textarea class="size" pInputTextarea style="resize:none; max-height: 400px" disabled="{{mockRest.operation === 'GET'}}" [(ngModel)]="currentRequestResponseDetail.request.requestBody">{{currentRequestResponseDetail.request.requestBody}}</textarea>
+      </div>
+    </div>
+    <div class="rightpaneDown">
+    <h2 align="center">Response</h2>
+    <div class="header">
+      <h3>Headers <span><a href style="font-size: 13px" (click)="add('responseHeader')">(add)</a></span></h3>
+      <p-table #dt [value]="currentRequestResponseDetail.response.responseHeaders">
+        <ng-template pTemplate="body" let-row>
+          <ng-container *ngIf="row.isNew !== true">
+            <tr>
+              <td width="45%" style="text-align: center; word-wrap: break-word">{{row.name}}</td>
+              <td width="45%" style="text-align: center; word-wrap: break-word">{{row.value}}</td>
+              <td width="8%">
+                <button style="font-size:15px"><i class="fa fa-trash-o"></i></button>
+              </td>
+            </tr>
+          </ng-container>
+          <ng-container *ngIf="row.isNew">
+            <tr>
+              <td width="45%" style="margin-left: 10px">
+                <input matInput placeholder="Name" style="text-align: center; overflow-wrap: normal; width: 100%" value="{{row.name}}" [disabled]="false"  [(ngModel)]="row.name" >
+              </td>
+              <td width="45%" style="margin-lerightpaneAboveBodyft: 10px">
+                <input matInput placeholder="Value" style="text-align: center; overflow-wrap: normal; width: 100%" value="{{row.value}}" [disabled]="false"  [(ngModel)]="row.value">
+              </td>
+              <td width="8%">
+                <button style="font-size:15px"><i class="fa fa-trash-o"></i></button>
+              </td>
+            </tr>
+          </ng-container>
+        </ng-template>
+      </p-table>
+    </div>
+      <div class="body">
+        <h3>Body</h3>
+        <textarea class="size" pInputTextarea style="resize:none; max-height: 400px" [(ngModel)]="currentRequestResponseDetail.response.responseBody">{{currentRequestResponseDetail.response.responseBody}}</textarea>
+      </div>
+</div>
+  </div>
+</ng-container>
+

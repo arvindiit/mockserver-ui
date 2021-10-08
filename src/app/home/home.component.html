@@ -1,0 +1,22 @@
+<div class="leftpane">
+  <h2>Tenants</h2>
+  <ng-container *ngFor="let tenant of tenants">
+    <mat-toolbar>
+      <mat-toolbar-row>
+        <a href (click)="loadOperations(tenant);"> {{ tenant }} </a>
+      </mat-toolbar-row>
+    </mat-toolbar>
+  </ng-container>
+</div>
+<div class="rightpane" role="main">
+  <ng-container *ngIf="this.operations">
+    <h2>Operations</h2>
+    <ng-container *ngFor="let operation of operations">
+      <mat-toolbar>
+        <mat-toolbar-row>
+          <a href (click)="loadPage(operation)"> {{ operation }} </a>
+        </mat-toolbar-row>
+      </mat-toolbar>
+    </ng-container>
+  </ng-container>
+</div>

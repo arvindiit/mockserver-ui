@@ -51,4 +51,4 @@ jobs:
           app-name: 'mockserver-ui'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_62633D70038741389AF562C782B0FED6 }}
-          package: .
+          package: ./dist/mockserver-ui
